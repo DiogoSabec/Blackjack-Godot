@@ -1,0 +1,49 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjt8gdskjgc2"]
+
+[ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_gvb23"]
+[ext_resource type="PackedScene" uid="uid://tvfbtpuai3kc" path="res://scenes/carta.tscn" id="2_nv0ly"]
+[ext_resource type="FontFile" uid="uid://djicygx4u8hxt" path="res://assets/fonts/PixelOperator8.ttf" id="3_ulb7j"]
+[ext_resource type="FontFile" uid="uid://bdbctmkpecchp" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_xn4vl"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="Game Manager" type="Node" parent="."]
+unique_name_in_owner = true
+script = ExtResource("1_gvb23")
+
+[node name="Pontuacao" type="Label" parent="Game Manager"]
+offset_left = -79.0
+offset_top = -77.0
+offset_right = 81.0
+offset_bottom = -54.0
+theme_override_fonts/font = ExtResource("3_ulb7j")
+text = "Total Points:"
+
+[node name="parar" type="Button" parent="Game Manager"]
+offset_left = -54.0
+offset_top = 88.0
+offset_right = 54.0
+offset_bottom = 104.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_xn4vl")
+theme_override_font_sizes/font_size = 8
+text = "parar"
+
+[node name="comprar" type="Button" parent="Game Manager"]
+offset_left = -54.0
+offset_top = 60.0
+offset_right = 54.0
+offset_bottom = 76.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_fonts/font = ExtResource("3_xn4vl")
+theme_override_font_sizes/font_size = 8
+text = "Comprar Carta"
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3, 3)
+
+[node name="carta" parent="." instance=ExtResource("2_nv0ly")]
+
+[connection signal="pressed" from="Game Manager/comprar" to="Game Manager" method="_on_comprar_pressed"]
