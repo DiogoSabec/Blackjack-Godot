@@ -1,22 +1,42 @@
-class_name SceneManager
+class_name GameManager
+
 extends Node
 
-@export var player_cards: Array = []
-@export var total_points: int = 0
+@export var cards_bought: Array = []
 
-@onready var pontuacao = $Pontuacao  # Ensure this path is correct
-@onready var comprar = $comprar
-@onready var carta = preload("res://scenes/carta.tscn")  # Path to your Card scene
+@onready var pontuacao:Label = $Pontuacao  # Ensure this path is correct
+@onready var text = $text
+
+@onready var player = $"../player"
+@onready var opponent = $"../opponent"
+	
+func _process(delta):
+	
+	if player.total_points > 21:
+		pontuacao.text = 'You lost! \nYou have ' + str(player.total_points) + ' points!'
+
+	if opponent.total_points > 21:
+		pontuacao.text = 'You win! \nOpponent has ' + str(opponent.total_points) + ' points!'
+
+	if cards_bought.size() == 52:
+		pontuacao.text = 'All cards drawn!'
+	
+	if player.current_turn:
+		text.text = 'Seu tuno!'
+	else:
+		text.text = 'Truno do oponente!'
 
 
 func _on_comprar_pressed():
-	var new_card = carta.instantiate()
-	add_child(new_card)
-	player_cards.append(new_card)
-	total_points += new_card.card_value
+	if player.current_turn:
+		player.buyCard()
+	else:
+		opponent.buyCard()
 
-	pontuacao.text = 'Total Points: ' + str(total_points)
-	
-func _process(delta):
-	if total_points > 21:
-		pontuacao.text = 'You lost! \nYou have ' + str(total_points) + ' points!'
+
+func _on_parar_pressed():
+	if player.current_turn:
+		player.skipTurn()
+	else:
+		opponent.skipTurn()
+
