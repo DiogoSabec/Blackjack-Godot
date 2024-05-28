@@ -1,9 +1,13 @@
+class_name Item
 extends Node2D
 
 @export var item_id: int = 0
 
 @onready var icon = $icon
-@onready var area = $Area2D  # Ensure this path correctly references your Area2D node
+@onready var area = $Area2D
+
+@onready var player: Player = get_node("../../../../../player")
+@onready var enemy: Player = get_node("../../../../../opponent")
 
 var item_actions = {}
 
@@ -12,7 +16,7 @@ func _ready():
 	setup_item_actions()
 
 func setup_item_actions():
-	for i in range(13):  # This covers item IDs from 0 to 12
+	for i in range(13):
 		item_actions[i] = Callable(self, "item_%s_action" % i)
 
 func _on_area_2d_input_event(viewport, event, shape_idx):
@@ -24,40 +28,48 @@ func useItem(id):
 		item_actions[id].call()
 
 func item_0_action():
-	print("Action for item 0")
+	if player:
+		switch_cards(player, enemy)
+	else:
+		switch_cards(enemy, player)
+	queue_free()
 
 func item_1_action():
-	print("Action for item 1")
+	if player:
+		switch_cards(player, enemy)
+	else:
+		switch_cards(enemy, player)
+	queue_free()
 
-func item_2_action():
-	print("Action for item 2")
 
-func item_3_action():
-	print("Action for item 3")
+func switch_cards(from_player, to_player):
+	var cards_to_switch = from_player.get_children()
+	var cards_to_switch_opponent = to_player.get_children()
+	
+	var temp_card_pos = 0
+	for card in cards_to_switch:
+		temp_card_pos = 0
+		var last_card_buyed
+		if card is Card:
+			card.get_parent().remove_child(card)
+			to_player.add_child(card)
+			card.card_hidden = true
+			card.sprite_2d.frame = 66
+			# Adjust the position of the card if necessary
+			temp_card_pos = card.position
+			last_card_buyed = card
+			card.position = Vector2(last_card_buyed.position.x - 12, 0)
+			card.z_index = to_player.get_child_count()  # Ensure cards are stacked correctly
 
-func item_4_action():
-	print("Action for item 4")
-
-func item_5_action():
-	print("Action for item 5")
-
-func item_6_action():
-	print("Action for item 6")
-
-func item_7_action():
-	print("Action for item 7")
-
-func item_8_action():
-	print("Action for item 8")
-
-func item_9_action():
-	print("Action for item 9")
-
-func item_10_action():
-	print("Action for item 10")
-
-func item_11_action():
-	print("Action for item 11")
-
-func item_12_action():
-	print("Action for item 12")
+	for card in cards_to_switch_opponent:
+		var last_card_buyed
+		if card is Card:
+			card.get_parent().remove_child(card)
+			from_player.add_child(card)
+			card.card_hidden = false
+			card.sprite_2d.frame = card.card_index
+			# Adjust the position of the card if necessary
+			temp_card_pos = card.position
+			last_card_buyed = card
+			card.position = Vector2(last_card_buyed.position.x + 12, 0)
+			card.z_index = from_player.get_child_count()  # Ensure cards are stacked correctly

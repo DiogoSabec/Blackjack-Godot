@@ -177,12 +177,15 @@ texture = ExtResource("7_47xrr")
 stretch_mode = 4
 
 [node name="player" type="Node2D" parent="." node_paths=PackedStringArray("enemy", "inventory")]
+unique_name_in_owner = true
 position = Vector2(-119, 41)
 script = ExtResource("5_kornk")
+current_turn = true
 enemy = NodePath("../opponent")
 inventory = NodePath("../UI/Inventory/GridContainer")
 
 [node name="opponent" type="Node2D" parent="." node_paths=PackedStringArray("enemy", "inventory")]
+unique_name_in_owner = true
 position = Vector2(119, -41)
 script = ExtResource("5_kornk")
 opponent = true

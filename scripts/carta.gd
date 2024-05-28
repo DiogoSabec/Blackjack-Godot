@@ -10,26 +10,34 @@ extends Node2D
 
 var card_hidden: bool = false
 
+const MAX_CARD_INDEX = 65
+const CARD_SUIT_DIVISOR = 13
+const FACE_CARD_VALUE = 10
+
 func _ready():
 	if not game_manager:
 		print("GameManager is not initialized")
 		return  # Exit if game_manager is not found
 
-	card_index = randi() % 66
-	# Check if card_index is in the game_manager's cards_bought; if yes, select another index
+	select_card_index()
+	set_card_properties()
+
+func select_card_index():
+	card_index = randi() % (MAX_CARD_INDEX + 1)
 	while card_index in game_manager.cards_bought:
-		card_index = randi() % 66
+		card_index = randi() % (MAX_CARD_INDEX + 1)
 
+func set_card_properties():
 	sprite_2d.frame = card_index
-	card_value = (card_index % 13) + 1
-	var card_suit = int(card_index / 13) 
+	card_value = (card_index % CARD_SUIT_DIVISOR) + 1
 
-	# Images (Jack, Queen, King) are worth 10
-	if card_value >= 11 and card_value <= 13:
-		card_value = 10 
+	if card_value >= 11:
+		card_value = FACE_CARD_VALUE 
 
+	var card_suit = int(card_index / CARD_SUIT_DIVISOR) 
 	print("Card Value: ", card_value, " Card Suit: ", card_suit)
 
 func _on_area_2d_input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		print("lol it works")
+

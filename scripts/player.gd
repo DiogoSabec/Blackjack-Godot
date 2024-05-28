@@ -10,7 +10,7 @@ extends Node2D
 var item_list: Array = []
 var has_skipped: bool = false
 
-@export var opponent: bool = false
+@export var opponent: bool = false  # True if this instance is the opponent (bot)
 @export var current_turn: bool = false
 @export var enemy: Player
 @export var inventory: GridContainer
@@ -27,31 +27,32 @@ func buyCard():
 	add_child(new_card)
 	game_manager.cards_bought.append(new_card.card_index)
 	
-	
 	if new_card.card_index >= 52:
 		addItem(new_card, new_card.card_index)
 	else:
 		total_points += new_card.card_value
-		if last_card_buyed != null:
-			if opponent:
-				new_card.position = Vector2(last_card_buyed.position.x - 15, 0)
-				new_card.z_index = last_card_buyed.z_index + 1
-			else:
-				new_card.position = Vector2(last_card_buyed.position.x + 15, 0)
-				new_card.z_index = last_card_buyed.z_index + 1
+		position_new_card(new_card)
 		last_card_buyed = new_card
 
-	if opponent:
-		new_card.card_hidden = 1
-	else:
+	update_card_display(new_card)
+
+	if not opponent:
 		pontuacao.text = 'Total Points: ' + str(total_points)
 
-	if new_card.card_hidden:
-		new_card.sprite_2d.frame = 66
-	else:
-		new_card.sprite_2d.frame = new_card.card_index
-
 	switch_turns()
+
+func position_new_card(new_card):
+	if last_card_buyed != null:
+		if opponent:
+			new_card.position = Vector2(last_card_buyed.position.x - 12, 0)
+		else:
+			new_card.position = Vector2(last_card_buyed.position.x + 12, 0)
+		new_card.z_index = last_card_buyed.z_index + 1
+
+func update_card_display(new_card):
+	if opponent:
+		new_card.card_hidden = true
+	new_card.sprite_2d.frame = 66 if new_card.card_hidden else new_card.card_index
 
 func skipTurn():
 	switch_turns()
@@ -73,3 +74,12 @@ func addItem(card, index):
 			break
 	
 	card.queue_free()
+
+# Function to simulate bot's decision making
+func bot_act(bot_threshold: int):
+	if opponent:
+		if total_points < bot_threshold:
+			buyCard()
+		else:
+			skipTurn()
+		has_skipped = true
