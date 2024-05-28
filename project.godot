@@ -16,6 +16,14 @@ config/features=PackedStringArray("4.2", "Forward Plus")
 config/icon="res://icon.svg"
 boot_splash/main_scene="res://scenes/cena.tscn"
 
+[autoload]
+
+Signal_Debugger="*res://addons/SignalVisualizer/Debugger/SignalDebugger.gd"
+
+[editor_plugins]
+
+enabled=PackedStringArray("res://addons/SignalVisualizer/plugin.cfg")
+
 [rendering]
 
 textures/canvas_textures/default_texture_filter=3

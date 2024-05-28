@@ -1,12 +1,231 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjt8gdskjgc2"]
+[gd_scene load_steps=9 format=3 uid="uid://cjt8gdskjgc2"]
 
 [ext_resource type="Script" path="res://scripts/game_manager.gd" id="1_gvb23"]
 [ext_resource type="FontFile" uid="uid://djicygx4u8hxt" path="res://assets/fonts/PixelOperator8.ttf" id="3_ulb7j"]
 [ext_resource type="FontFile" uid="uid://bdbctmkpecchp" path="res://assets/fonts/PixelOperator8-Bold.ttf" id="3_xn4vl"]
 [ext_resource type="Texture2D" uid="uid://cr65qw1rtokax" path="res://assets/background.png" id="4_yybml"]
+[ext_resource type="PackedScene" uid="uid://5byjc1x6d4kb" path="res://scenes/item.tscn" id="5_ekgj2"]
 [ext_resource type="Script" path="res://scripts/player.gd" id="5_kornk"]
+[ext_resource type="Texture2D" uid="uid://vk1o1akpnfs" path="res://assets/item-box.png" id="6_524ad"]
+[ext_resource type="Texture2D" uid="uid://dbw78xa1elkan" path="res://assets/item-frame.png" id="7_47xrr"]
 
 [node name="Cena" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+zoom = Vector2(3.855, 3.855)
+
+[node name="Background" type="Sprite2D" parent="Camera2D"]
+texture = ExtResource("4_yybml")
+
+[node name="player" type="Node2D" parent="." node_paths=PackedStringArray("enemy")]
+position = Vector2(-119, 41)
+script = ExtResource("5_kornk")
+enemy = NodePath("../opponent")
+
+[node name="opponent" type="Node2D" parent="." node_paths=PackedStringArray("enemy")]
+position = Vector2(119, -41)
+script = ExtResource("5_kornk")
+opponent = true
+enemy = NodePath("../player")
+
+[node name="UI" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -138.5
+offset_top = -73.5
+offset_right = 138.5
+offset_bottom = 73.5
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(150, 85)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="Inventory" type="NinePatchRect" parent="UI"]
+layout_mode = 1
+offset_right = 60.0
+offset_bottom = 40.0
+texture = ExtResource("6_524ad")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="UI/Inventory"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3
+
+[node name="TextureRect" type="TextureRect" parent="UI/Inventory/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory/GridContainer/TextureRect" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 6
+
+[node name="TextureRect5" type="TextureRect" parent="UI/Inventory/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory/GridContainer/TextureRect5" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 7
+
+[node name="TextureRect6" type="TextureRect" parent="UI/Inventory/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory/GridContainer/TextureRect6" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 8
+
+[node name="TextureRect2" type="TextureRect" parent="UI/Inventory/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory/GridContainer/TextureRect2" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 9
+
+[node name="TextureRect3" type="TextureRect" parent="UI/Inventory/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory/GridContainer/TextureRect3" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 10
+
+[node name="TextureRect4" type="TextureRect" parent="UI/Inventory/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory/GridContainer/TextureRect4" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 11
+
+[node name="Inventory2" type="NinePatchRect" parent="UI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -60.0
+offset_top = -40.0
+grow_horizontal = 0
+grow_vertical = 0
+texture = ExtResource("6_524ad")
+patch_margin_left = 5
+patch_margin_top = 5
+patch_margin_right = 5
+patch_margin_bottom = 5
+
+[node name="GridContainer" type="GridContainer" parent="UI/Inventory2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = 2.0
+offset_right = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+columns = 3
+
+[node name="TextureRect" type="TextureRect" parent="UI/Inventory2/GridContainer"]
+layout_mode = 2
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory2/GridContainer/TextureRect" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+
+[node name="TextureRect5" type="TextureRect" parent="UI/Inventory2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory2/GridContainer/TextureRect5" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 1
+
+[node name="TextureRect6" type="TextureRect" parent="UI/Inventory2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory2/GridContainer/TextureRect6" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 2
+
+[node name="TextureRect2" type="TextureRect" parent="UI/Inventory2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory2/GridContainer/TextureRect2" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 3
+
+[node name="TextureRect3" type="TextureRect" parent="UI/Inventory2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory2/GridContainer/TextureRect3" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 4
+
+[node name="TextureRect4" type="TextureRect" parent="UI/Inventory2/GridContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture = ExtResource("7_47xrr")
+stretch_mode = 4
+
+[node name="item" parent="UI/Inventory2/GridContainer/TextureRect4" instance=ExtResource("5_ekgj2")]
+position = Vector2(8, 8)
+item_id = 5
 
 [node name="GameManager" type="Node" parent="."]
 unique_name_in_owner = true
@@ -51,23 +270,6 @@ size_flags_vertical = 4
 theme_override_fonts/font = ExtResource("3_xn4vl")
 theme_override_font_sizes/font_size = 8
 text = "Comprar Carta"
-
-[node name="Camera2D" type="Camera2D" parent="."]
-zoom = Vector2(3.855, 3.855)
-
-[node name="Background" type="Sprite2D" parent="Camera2D"]
-texture = ExtResource("4_yybml")
-
-[node name="player" type="Node2D" parent="." node_paths=PackedStringArray("enemy")]
-position = Vector2(-119, 41)
-script = ExtResource("5_kornk")
-enemy = NodePath("../opponent")
-
-[node name="opponent" type="Node2D" parent="." node_paths=PackedStringArray("enemy")]
-position = Vector2(119, -41)
-script = ExtResource("5_kornk")
-opponent = true
-enemy = NodePath("../player")
 
 [connection signal="pressed" from="GameManager/parar" to="GameManager" method="_on_parar_pressed"]
 [connection signal="pressed" from="GameManager/comprar" to="GameManager" method="_on_comprar_pressed"]

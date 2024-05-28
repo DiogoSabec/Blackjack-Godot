@@ -22,9 +22,9 @@ func _process(delta):
 		pontuacao.text = 'All cards drawn!'
 	
 	if player.current_turn:
-		text.text = 'Seu tuno!'
+		text.text = 'Your Turn!'
 	else:
-		text.text = 'Truno do oponente!'
+		text.text = 'Opponents Turn!'
 
 
 func _on_comprar_pressed():
@@ -39,4 +39,3 @@ func _on_parar_pressed():
 		player.skipTurn()
 	else:
 		opponent.skipTurn()
-

@@ -15,10 +15,10 @@ func _ready():
 		print("GameManager is not initialized")
 		return  # Exit if game_manager is not found
 
-	card_index = randi() % 52
+	card_index = randi() % 65
 	# Check if card_index is in the game_manager's cards_bought; if yes, select another index
 	while card_index in game_manager.cards_bought:
-		card_index = randi() % 52
+		card_index = randi() % 65
 
 	sprite_2d.frame = card_index
 	card_value = (card_index % 13) + 1
